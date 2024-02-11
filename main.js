@@ -1,6 +1,6 @@
 function getComputerChoice(){
-    var index = Math.floor(Math.random() * 3);
-    var choice = "";
+    let index = Math.floor(Math.random() * 3);
+    let choice = "";
 
     switch(index){
         case 0:
@@ -17,12 +17,12 @@ function getComputerChoice(){
     return choice;
 }
 
-var playerScore = 0;
-var computerScore = 0;
+let playerScore = 0;
+let computerScore = 0;
 
 function playRound(playerChoice, computerChoice) {
-    var pChoice = playerChoice.toUpperCase();
-    var cChoice = computerChoice.toUpperCase();
+    let pChoice = playerChoice.toUpperCase();
+    let cChoice = computerChoice.toUpperCase();
 
     let result = "";
 
@@ -66,7 +66,7 @@ function playRound(playerChoice, computerChoice) {
 
 function playGame() {
     for(let i = 0; i < 5; i++){
-        const computerChoice = getComputerChoice();
+        let computerChoice = getComputerChoice();
         console.log(playRound(prompt("Rock, paper or scissors. Choose one!"), computerChoice));
     }
     
