@@ -1,29 +1,40 @@
+//global variables
+let playerScore = 0;
+let computerScore = 0;
+
+//gets a random choice for the computer
 function getComputerChoice(){
     let index = Math.floor(Math.random() * 3);
     let choice = "";
 
     switch(index){
         case 0:
-            choice = "Rock";
+            choice = "rock";
             break;
         case 1:
-            choice = "Paper";
+            choice = "paper";
             break;
         case 2:
-            choice = "Scissors";
+            choice = "scissors";
             break;
     }
 
     return choice;
 }
 
-let playerScore = 0;
-let computerScore = 0;
+//adds a <p> to the top of the container given the text content and color
+function addPToDoc(content, color) {
+    let container = document.getElementById('game-output-container');
+    let p = document.createElement('p');
 
-function playRound(playerChoice, computerChoice) {
-    let pChoice = playerChoice.toUpperCase();
-    let cChoice = computerChoice.toUpperCase();
+    p.textContent = content;
+    p.style.color = color;
 
+    container.insertBefore(p, container.firstChild);
+}
+
+//returns wether the player has tied, won or lost the round and the winning hand
+function playRound(pChoice, cChoice) {
     let result = "";
 
     if (pChoice === cChoice) {
@@ -32,29 +43,29 @@ function playRound(playerChoice, computerChoice) {
     }
 
     switch(pChoice){
-        case "ROCK":
-            if (cChoice === "PAPER") {
+        case "rock":
+            if (cChoice === "paper") {
                 result = "You lose this round! Paper beats rock.";
                 computerScore++;
-            } else if (cChoice === "SCISSORS") {
+            } else if (cChoice === "scissors") {
                 result = "You win this round! Rock beats scissors.";
                 playerScore++;
             }
             break;
-        case "PAPER":
-            if (cChoice === "ROCK") {
+        case "paper":
+            if (cChoice === "rock") {
                 result = "You win this round! Paper beats rock.";
                 playerScore++;
-            } else if (cChoice === "SCISSORS") {
+            } else if (cChoice === "scissors") {
                  result = "You lose this round! Scissors beat paper.";
                  computerScore++;
             }
             break;
-        case "SCISSORS":
-            if (cChoice === "PAPER") {
+        case "scissors":
+            if (cChoice === "paper") {
                 result = "You win this round! Scissors beat paper.";
                 playerScore++;
-            } else if (cChoice === "ROCK") {
+            } else if (cChoice === "rock") {
                 result = "You lose this round! Rock beats scissors.";
                 computerScore++;
             }
@@ -64,17 +75,23 @@ function playRound(playerChoice, computerChoice) {
     return result;
 }
 
-function playGame() {
-    for(let i = 0; i < 5; i++){
-        let computerChoice = getComputerChoice();
-        console.log(playRound(prompt("Rock, paper or scissors. Choose one!"), computerChoice));
-    }
-    
-    let result = (playerScore > computerScore) ? "You have won against the computer!" : "You have lost against the computer :c";
+//prints win/lose text and sets scores back to 0
+function endGame() {
+    if (playerScore == 5) addPToDoc("Congratulations! You have won the game!", 'green');
+    else addPToDoc("You have lost the game :c", 'red');
 
-    if (playerScore ==  computerScore) result = "You have tied against the computer.";
-
-    console.log(result);
+    playerScore = 0;
+    computerScore = 0;
 }
 
-playGame();
+//plays the game
+function playGame(playerChoice) {
+    const roundResult = playRound(playerChoice, getComputerChoice());
+
+    let pContent = roundResult + " " + playerScore + " | " + computerScore;
+    addPToDoc(pContent, 'black');
+
+    if (playerScore == 5 || computerScore == 5) {
+        endGame();
+    }
+}
