@@ -2,84 +2,48 @@
 let playerScore = 0;
 let computerScore = 0;
 
+const CHOICES = ["rock", "paper", "meow"];
+
 //gets a random choice for the computer
 function getComputerChoice(){
-    let index = Math.floor(Math.random() * 3);
-    let choice = "";
-
-    switch(index){
-        case 0:
-            choice = "rock";
-            break;
-        case 1:
-            choice = "paper";
-            break;
-        case 2:
-            choice = "scissors";
-            break;
-    }
-
-    return choice;
+    return CHOICES[Math.floor(Math.random() * CHOICES.length)];
 }
 
 //adds a <p> to the top of the container given the text content and color
-function addPToDoc(content, color) {
+function addText(content, color) {
     let container = document.getElementById('game-output-container');
-    let p = document.createElement('p');
 
-    p.textContent = content;
-    p.style.color = color;
+    container.textContent = content;
+    container.style.color = color;
+}
 
-    container.insertBefore(p, container.firstChild);
+function updateScore(){
+    let score = document.getElementById('score');
+    score.textContent = `${playerScore} | ${computerScore}`;
 }
 
 //returns wether the player has tied, won or lost the round and the winning hand
 function playRound(pChoice, cChoice) {
-    let result = "";
-
     if (pChoice === cChoice) {
-        result = "You tie this round!";
-        return result;
+        return "You tie this round!";
     }
-
-    switch(pChoice){
-        case "rock":
-            if (cChoice === "paper") {
-                result = "You lose this round! Paper beats rock.";
-                computerScore++;
-            } else if (cChoice === "scissors") {
-                result = "You win this round! Rock beats scissors.";
-                playerScore++;
-            }
-            break;
-        case "paper":
-            if (cChoice === "rock") {
-                result = "You win this round! Paper beats rock.";
-                playerScore++;
-            } else if (cChoice === "scissors") {
-                 result = "You lose this round! Scissors beat paper.";
-                 computerScore++;
-            }
-            break;
-        case "scissors":
-            if (cChoice === "paper") {
-                result = "You win this round! Scissors beat paper.";
-                playerScore++;
-            } else if (cChoice === "rock") {
-                result = "You lose this round! Rock beats scissors.";
-                computerScore++;
-            }
-            break;
+    if (
+        (pChoice === "rock" && cChoice === "meow") ||
+        (pChoice === "paper" && cChoice === "rock") ||
+        (pChoice === "meow" && cChoice === "paper")
+    ) {
+        playerScore++;
+        return `You win this round! ${pChoice} beats ${cChoice}.`;
+    } else {
+        computerScore++;
+        return `You lose this round! ${cChoice} beats ${pChoice}.`;
     }
-
-    return result;
 }
 
 //prints win/lose text and sets scores back to 0
 function endGame() {
-    if (playerScore == 5) addPToDoc("Congratulations! You have won the game!", 'green');
-    else addPToDoc("You have lost the game :c", 'red');
-
+    const message = (playerScore === 5) ? "Congratulations! You have won!" : "You have lost the game :c";
+    addText(message, (playerScore === 5) ? 'green' : 'red');
     playerScore = 0;
     computerScore = 0;
 }
@@ -87,11 +51,10 @@ function endGame() {
 //plays the game
 function playGame(playerChoice) {
     const roundResult = playRound(playerChoice, getComputerChoice());
+    addText(roundResult, 'black')
+    updateScore();
 
-    let pContent = roundResult + " " + playerScore + " | " + computerScore;
-    addPToDoc(pContent, 'black');
-
-    if (playerScore == 5 || computerScore == 5) {
+    if (playerScore === 5 || computerScore === 5) {
         endGame();
     }
 }
