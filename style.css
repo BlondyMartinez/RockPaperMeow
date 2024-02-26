@@ -1,0 +1,92 @@
+@font-face {
+    font-family: Mabook;
+    src: url('resources/fonts/Mabook.otf') format('opentype');
+}
+
+.container-fluid{
+    --bs-gutter-x: 0;
+}
+
+body {
+    background-color: #F9E6DC;
+    height: 100%;
+    
+    font-family: Mabook;
+}
+
+img {
+    aspect-ratio: 1/1;
+}
+
+a {
+    color: white;
+}
+
+.header,
+.footer {
+    background-color: #EECBC6;
+
+    font-size: 8vw;
+    text-align: center;
+    color: white;
+}
+
+.text-shadow{
+    text-shadow: 3px 3px 1px black;
+}
+
+.player{
+    background-color: #EABA00;
+}
+
+.computer{
+    background-color: #B48F17;
+}
+
+.computer-paw{
+    filter: drop-shadow(-10px 10px 2px rgba(0, 0, 0, 0.5));
+}
+.player-paw{
+    filter: drop-shadow(10px 10px 2px rgba(0, 0, 0, 0.5));
+}
+.vs {
+    filter: drop-shadow(0 10px 2px rgba(0, 0, 0, 0.5));
+}
+
+
+
+.btn-img{
+    filter: drop-shadow(5px 5px 1px rgba(0, 0, 0, 0.5));
+}
+
+@media (min-width: 768px) {
+    .btn-img {
+        width: 12vw;
+    }
+    
+    .header h1 {
+        font-size: 3vw;
+    }
+    .computer-paw img,
+    .player-paw img {
+        width: 25vw;
+    }
+    .vs img{
+        width: 25vw;
+    }
+}
+@media (max-width: 767px) {
+    .btn-img {
+        width: 30vw;
+    }
+    .header h1 {
+        font-size: 8vw;
+    }
+    .computer-paw img,
+    .player-paw img {
+        width: 50vw;
+    }
+    .vs img{
+        width: 40vw;
+    }
+}
